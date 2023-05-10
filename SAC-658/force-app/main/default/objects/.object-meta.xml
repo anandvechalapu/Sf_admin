@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Survey_Questions__c</fullName>
+    <label>Survey Questions</label>
+    <pluralLabel>Survey Questions</pluralLabel>
+    <nameField>
+        <label>Survey Questions</label>
+        <type>AutoNumber</type>
+        <displayFormat>SQ-{00001}</displayFormat>
+        <startingNumber>1</startingNumber>
+    </nameField>
+    <fields>
+        <fullName>Question_Name__c</fullName>
+        <label>Question Name</label>
+        <type>Text</type>
+        <length>80</length>
+    </fields>
+    <fields>
+        <fullName>Question_Type__c</fullName>
+        <label>Question Type</label>
+        <type>Picklist</type>
+        <picklist>
+            <picklistValues>
+                <fullName>Single_Choice</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Multi_Choice</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Text</fullName>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Rating</fullName>
+                <default>false</default>
+            </picklistValues>
+        </picklist>
+    </fields>
+    <fields>
+        <fullName>Survey__c</fullName>
+        <label>Survey</label>
+        <referenceTo>Survey__c</referenceTo>
+        <relationshipLabel>Survey Questions</relationshipLabel>
+        <type>Lookup</type>
+    </fields>
+    <recordTypes>
+        <fullName>Survey_Questions</fullName>
+        <active>true</active>
+        <label>Survey Questions</label>
+    </recordTypes>
+    <pageLayouts>
+        <fullName>Survey_Questions_Layout</fullName>
+        <availableForNew>true</availableForNew>
+        <layoutSections>
+            <fullName>Survey_Questions</fullName>
+            <layoutColumns>
+                <fullName>Survey_Questions_Col1</fullName>
+                <layoutItems>
+                    <field>Survey_Questions__c</field>
+                </layoutItems>
+            </layoutColumns>
+            <layoutColumns>
+                <fullName>Survey_Questions_Col2</fullName>
+                <layoutItems>
+                    <field>Question_Name__c</field>
+                </layoutItems>
+            </layoutColumns>
+            <layoutColumns>
+                <fullName>Survey_Questions_Col3</fullName>
+                <layoutItems>
+                    <field>Question_Type__c</field>
+                </layoutItems>
+            </layoutColumns>
+            <layoutColumns>
+                <fullName>Survey_Questions_Col4</fullName>
+                <layoutItems>
+                    <field>Survey__c</field>
+                </layoutItems>
+            </layoutColumns>
+        </layoutSections>
+    </pageLayouts>
+    <tabs>
+        <visibility>DefaultOn</visibility>
+        <fullName>Survey_Questions</fullName>
+    </tabs>
+    <listViews>
+        <fullName>Survey_Questions</fullName>
+        <columns>Survey_Questions__c</columns>
+        <columns>Question_Name__c</columns>
+        <columns>Question_Type__c</columns>
+        <columns>Survey__c</columns>
+    </listViews>
+</CustomObject>
