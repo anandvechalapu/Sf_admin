@@ -1,0 +1,76 @@
+<template>
+    <lightning-card title="Survey Feedback" icon-name="custom:custom14">
+
+        <template if:true={questions.data}>
+            <template for:each={questions.data} for:item="question">
+                <div class="slds-p-around_medium">
+                    <lightning-formatted-text value={question.Question_Text__c}>
+                    </lightning-formatted-text>
+                    <template if:true={question.Question_Type__c==='Text'}>
+                        <lightning-textarea name={question.Id} label="Feedback" placeholder="Enter your response here" onchange={handleChange}></lightning-textarea>
+                    </template>
+                    <template if:true={question.Question_Type__c==='Single Choice'}>
+                        <template for:each={question.Choices__r.data} for:item="choice">
+                            <div key={choice.Id} class="slds-p-around_xx-small">
+                                <lightning-input name={question.Id} type="radio" label={choice.Choice_Text__c} value={choice.Id} onchange={handleChange}></lightning-input>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:true={question.Question_Type__c==='Multi Choice'}>
+                        <template for:each={question.Choices__r.data} for:item="choice">
+                            <div key={choice.Id} class="slds-p-around_xx-small">
+                                <lightning-input name={question.Id} type="checkbox" label={choice.Choice_Text__c} value={choice.Id} onchange={handleChange}></lightning-input>
+                            </div>
+                        </template>
+                    </template>
+
+                    <template if:true={question.Question_Type__c==='Rating'}>
+                        <template for:each={question.Choices__r.data} for:item="choice">
+                            <div key={choice.Id} class="slds-p-around_xx-small">
+                                <lightning-input name={question.Id} type="radio" label={choice.Choice_Text__c} value={choice.Id} onchange={handleChange}></lightning-input>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </template>
+        </template>
+        <div class="slds-p-around_medium">
+            <lightning-button label="Submit" variant="brand" onclick={handleSurveyResponse}>
+            </lightning-button>
+        </div>
+    </lightning-card>
+</template>
+
+<script>
+import { LightningElement, wire, track } from 'lwc';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getRecord, createRecord } from 'lightning/uiRecordApi';
+import SURVEY_QUESTIONS_OBJECT from '@salesforce/schema/Survey_Questions__c';
+import SURVEY_RESPONSE_OBJECT from '@salesforce/schema/Survey_Response__c';
+
+export default class SurveyFeedback extends LightningElement {
+    @track questions;
+    @track surveyResponse;
+
+    @wire(getObjectInfo, { objectApiName: SURVEY_QUESTIONS_OBJECT })
+    wiredObjectInfo({ error, data }) {
+        if (data) {
+            this.questions = data.fields;
+        } else if (error) {
+            // eslint-disable-next-line no-console
+            console.log(error);
+        }
+    }
+
+    handleChange(event) {
+        // eslint-disable-next-line no-console
+        console.log('handle change' + event.target.name + '==' + event.target.value);
+        this.surveyResponse[event.target.name] = event.target.value;
+    }
+
+    handleSurveyResponse() {
+        // eslint-disable-next-line no-console
+        console.log('handleSurveyResponse =' + JSON.stringify(this.surveyResponse));
+        const
